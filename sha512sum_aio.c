@@ -13,7 +13,7 @@
 #include <linux/aio_abi.h>
 #include <openssl/sha.h>
 
-#define BUFFER_SIZE 4096 * 1000
+#define BUFFER_SIZE 1024 * 500
 
 int io_setup(unsigned nr, aio_context_t *ctxp) {
 	return syscall(__NR_io_setup, nr, ctxp);
