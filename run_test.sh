@@ -1,5 +1,5 @@
 source config_test.sh
-TEST_CMD="strace -w -c -e io_submit,epoll_wait,io_getevents ./sha512sum_aio"
+TEST_CMD="strace -w -c -e io_submit,epoll_wait,io_getevents ./sha512sum_aio $((50*1024))"
 
 echo "### run xfs test..."
 sudo time $TEST_CMD ${XFS_MOUNTPOINT}$TESTFILE

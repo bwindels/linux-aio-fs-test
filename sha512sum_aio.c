@@ -13,7 +13,7 @@
 #include <linux/aio_abi.h>
 #include <openssl/sha.h>
 
-#define BUFFER_SIZE 1024 * 500
+static size_t buffer_size = 0;
 
 int io_setup(unsigned nr, aio_context_t *ctxp) {
 	return syscall(__NR_io_setup, nr, ctxp);
@@ -61,7 +61,7 @@ int file_setup(struct aio_file* file, char* filename) {
 		return -1;
 	}
 
-	file->buffer = aligned_alloc(512, BUFFER_SIZE);
+	file->buffer = aligned_alloc(512, buffer_size);
 
 	memset(&file->cb, 0, sizeof(file->cb));
 	struct iocb* cb = &file->cb;
@@ -70,7 +70,7 @@ int file_setup(struct aio_file* file, char* filename) {
 	cb->aio_resfd = file->event_fd;
 	cb->aio_lio_opcode = IOCB_CMD_PREAD;
 	cb->aio_buf = (uint64_t) file->buffer;
-	cb->aio_nbytes = BUFFER_SIZE;
+	cb->aio_nbytes = buffer_size;
 
 }
 
@@ -86,7 +86,7 @@ int file_register_read(struct aio_file* file, int epoll_fd) {
 int file_read_queue(struct aio_file* file) {
 	struct iocb* cb = &file->cb;
 
-	cb->aio_offset = file->read_blocks * BUFFER_SIZE;
+	cb->aio_offset = file->read_blocks * buffer_size;
 	//printf("submitting read request at %x for %d bytes ... ", cb->aio_offset, cb->aio_nbytes);
 	fflush(0);
 	if (io_submit(file->ctx, 1, &cb ) == -1) {
@@ -122,11 +122,16 @@ int file_read_complete(struct aio_file* file, char** buffer_ptr, size_t* buffer_
 
 
 int main(int argc, char *argv[]) {
-	if (argc < 2) {
-		perror("missing file argument");
+	if (argc < 3) {
+		fprintf(stderr, "usage: %s <buffer size> <file>\n", argv[0]);
 		return -1;
 	}
-	char* filename = argv[1];
+	buffer_size = atoi(argv[1]);
+	if (buffer_size <= 0 || (buffer_size % 512) != 0) {
+		fprintf(stderr, "invalid buffer size: %s, needs to be a multiple of 512\n", argv[1]);
+		return -1;
+	}
+	char* filename = argv[2];
 
 	struct aio_file file;
 	if (file_setup(&file, filename) == -1) {
@@ -164,7 +169,7 @@ int main(int argc, char *argv[]) {
 			return -1;
 		}
 		SHA512_Update(&sha_ctx, buffer, size);
-		if (size != BUFFER_SIZE) {
+		if (size != buffer_size) {
 			break;
 		}
 		file_read_queue(&file);
