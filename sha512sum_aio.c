@@ -98,7 +98,7 @@ int file_read_queue(struct aio_file* file) {
 
 int file_read_complete(struct aio_file* file, char** buffer_ptr, size_t* buffer_size_ptr) {
 	struct io_event evt_array[2] = {0};
-	int count = io_getevents(file->ctx, 1, 1, &evt_array[0], NULL);
+	int count = io_getevents(file->ctx, 0, 1, &evt_array[0], NULL);
 	if (count != 1) {
 		fprintf(stderr, "io_getevents %d instead of 1\n", count);
 		return 1;
