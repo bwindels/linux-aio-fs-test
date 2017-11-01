@@ -1,0 +1,33 @@
+### run xfs test...
+9ef17d7e50d0e324305287f223f49f5459bbef66797e91de29c5164bbd86b271558cd868f0410e47ecc2d8d6cd5955c89fc4e6b3c97509030e8fb3a81cd4085b
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 99.67  101.992939       49777      2049           epoll_wait
+  0.25    0.254549         124      2049           io_submit
+  0.09    0.087674          43      2049           io_getevents
+------ ----------- ----------- --------- --------- ----------------
+100.00  102.335162                  6147           total
+1.02user 0.59system 1:43.51elapsed 1%CPU (0avgtext+0avgdata 2816maxresident)k
+206024inputs+0outputs (7major+330minor)pagefaults 0swaps
+### run btrfs test...
+9ef17d7e50d0e324305287f223f49f5459bbef66797e91de29c5164bbd86b271558cd868f0410e47ecc2d8d6cd5955c89fc4e6b3c97509030e8fb3a81cd4085b
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 99.89   98.608434       48125      2049           io_submit
+  0.06    0.054667          27      2049           epoll_wait
+  0.05    0.050120          24      2049           io_getevents
+------ ----------- ----------- --------- --------- ----------------
+100.00   98.713221                  6147           total
+0.53user 0.32system 1:39.35elapsed 0%CPU (0avgtext+0avgdata 2860maxresident)k
+204928inputs+0outputs (0major+339minor)pagefaults 0swaps
+### run ext4 test...
+9ef17d7e50d0e324305287f223f49f5459bbef66797e91de29c5164bbd86b271558cd868f0410e47ecc2d8d6cd5955c89fc4e6b3c97509030e8fb3a81cd4085b
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 99.67  101.998359       49780      2049           epoll_wait
+  0.24    0.248595         121      2049           io_submit
+  0.09    0.094046          46      2049           io_getevents
+------ ----------- ----------- --------- --------- ----------------
+100.00  102.341000                  6147           total
+0.95user 0.72system 1:43.58elapsed 1%CPU (0avgtext+0avgdata 2820maxresident)k
+204800inputs+0outputs (0major+337minor)pagefaults 0swaps
