@@ -1,0 +1,30 @@
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 98.49   20.290109        4837      4195           io_submit
+  0.75    0.154706          37      4195           epoll_wait
+  0.74    0.153125          37      4195           io_getevents
+  0.00    0.000569         569         1           execve
+  0.00    0.000565          30        19           mmap
+  0.00    0.000361          30        12           mprotect
+  0.00    0.000357          51         7           open
+  0.00    0.000220          31         7           fstat
+  0.00    0.000166          28         6           close
+  0.00    0.000151          38         4           brk
+  0.00    0.000140          28         5           read
+  0.00    0.000084          42         2         2 access
+  0.00    0.000051          51         1           io_setup
+  0.00    0.000050          50         1           write
+  0.00    0.000045          23         2           rt_sigaction
+  0.00    0.000039          39         1           epoll_ctl
+  0.00    0.000039          39         1           eventfd2
+  0.00    0.000036          36         1           munmap
+  0.00    0.000027          27         1           epoll_create
+  0.00    0.000026          26         1           rt_sigprocmask
+  0.00    0.000025          25         1           set_tid_address
+  0.00    0.000025          25         1           set_robust_list
+  0.00    0.000025          25         1           prlimit64
+  0.00    0.000024          24         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00   20.600965                 12661         2 total
+9.14user 1.49system 0:30.28elapsed 35%CPU (0avgtext+0avgdata 3228maxresident)k
+648inputs+0outputs (5major+445minor)pagefaults 0swaps
